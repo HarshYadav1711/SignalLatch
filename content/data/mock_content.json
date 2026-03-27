@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "Django Project Kickoff",
+    "body": "Initial mock content item for local development.",
+    "keywords": ["django", "drf", "local"]
+  },
+  {
+    "id": 2,
+    "title": "SignalLatch Assignment",
+    "body": "This dataset is intentionally local and static.",
+    "keywords": ["assignment", "mock", "sqlite"]
+  }
+]
