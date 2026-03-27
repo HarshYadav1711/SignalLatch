@@ -1,3 +1,16 @@
 from django.contrib import admin
+from .models import Flag
 
-# Register your models here.
+
+@admin.register(Flag)
+class FlagAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "keyword",
+        "content_item",
+        "score",
+        "status",
+        "reviewed_at",
+    )
+    list_filter = ("status",)
+    search_fields = ("keyword__name", "content_item__title", "content_item__source")
