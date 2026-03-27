@@ -8,7 +8,21 @@ from content.models import ContentItem
 from flags.models import Flag
 from keywords.models import Keyword
 from services.flag_review_service import mark_flag_irrelevant
-from services.scan_service import run_scan
+from services.scan_service import _compute_score, run_scan
+
+
+class ScoreLogicUnitTests(TestCase):
+    def test_exact_title_match_scores_100(self):
+        score = _compute_score("django", "django", "body text")
+        self.assertEqual(score, Decimal("100.00"))
+
+    def test_partial_title_match_scores_70(self):
+        score = _compute_score("django", "Django Project Kickoff", "body text")
+        self.assertEqual(score, Decimal("70.00"))
+
+    def test_body_only_match_scores_40(self):
+        score = _compute_score("sqlite", "Backend Assignment", "Body mentions SQLITE here.")
+        self.assertEqual(score, Decimal("40.00"))
 
 
 class ScanServiceTests(TestCase):
