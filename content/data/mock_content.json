@@ -1,14 +1,18 @@
 [
   {
     "id": 1,
+    "source": "mock_dataset",
     "title": "Django Project Kickoff",
     "body": "Initial mock content item for local development.",
-    "keywords": ["django", "drf", "local"]
+    "keywords": ["django", "drf", "local"],
+    "last_updated": "2026-03-01T10:00:00Z"
   },
   {
     "id": 2,
+    "source": "mock_dataset",
     "title": "SignalLatch Assignment",
     "body": "This dataset is intentionally local and static.",
-    "keywords": ["assignment", "mock", "sqlite"]
+    "keywords": ["assignment", "mock", "sqlite"],
+    "last_updated": "2026-03-02T14:30:00Z"
   }
 ]

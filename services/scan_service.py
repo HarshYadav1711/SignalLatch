@@ -4,7 +4,6 @@ from decimal import Decimal
 
 from django.conf import settings
 from django.db import transaction
-from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
 from content.models import ContentItem
@@ -47,12 +46,20 @@ def _load_content_from_dataset_if_needed():
     with dataset_path.open("r", encoding="utf-8") as handle:
         payload = json.load(handle)
 
-    for row in payload:
+    for index, row in enumerate(payload, start=1):
         source = (row.get("source") or "mock_dataset").strip()
         title = (row.get("title") or "").strip()
         body = row.get("body") or ""
-        parsed = parse_datetime(row.get("last_updated") or "")
-        last_updated = parsed if parsed else timezone.now()
+        raw_last_updated = row.get("last_updated")
+        if not raw_last_updated:
+            raise ValueError(
+                f"Dataset row {index} is missing required 'last_updated' value."
+            )
+        last_updated = parse_datetime(raw_last_updated)
+        if last_updated is None:
+            raise ValueError(
+                f"Dataset row {index} has invalid 'last_updated': {raw_last_updated!r}."
+            )
         if not title:
             continue
         ContentItem.objects.update_or_create(
