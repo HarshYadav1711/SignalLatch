@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.text import slugify
 
 
 class Keyword(models.Model):
@@ -15,8 +14,7 @@ class Keyword(models.Model):
 
     @staticmethod
     def normalize_name(value: str) -> str:
-        normalized = slugify((value or "").strip()).replace("-", " ")
-        return " ".join(normalized.split())
+        return (value or "").strip().lower()
 
     def __str__(self):
         return self.name
