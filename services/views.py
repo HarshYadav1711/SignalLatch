@@ -5,6 +5,22 @@ from rest_framework.views import APIView
 from .scan_service import run_scan
 
 
+class ApiRootView(APIView):
+    def get(self, request):
+        return Response(
+            {
+                "message": "SignalLatch backend is running.",
+                "endpoints": {
+                    "create_keyword": "/keywords/",
+                    "scan": "/scan/",
+                    "list_flags": "/flags/",
+                    "review_flag": "/flags/{id}/",
+                },
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
 class ScanTriggerView(APIView):
     def post(self, request):
         result = run_scan()

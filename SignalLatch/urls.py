@@ -19,9 +19,10 @@ from django.urls import path
 
 from flags.views import FlagListView, FlagReviewUpdateView
 from keywords.views import KeywordCreateView
-from services.views import ScanTriggerView
+from services.views import ApiRootView, ScanTriggerView
 
 urlpatterns = [
+    path('', ApiRootView.as_view()),
     path('admin/', admin.site.urls),
     path('keywords/', KeywordCreateView.as_view()),
     path('scan/', ScanTriggerView.as_view()),
