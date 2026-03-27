@@ -4,12 +4,19 @@ from .models import Flag
 
 
 class FlagSerializer(serializers.ModelSerializer):
+    keyword_name = serializers.CharField(source="keyword.name", read_only=True)
+    content_title = serializers.CharField(source="content_item.title", read_only=True)
+    content_source = serializers.CharField(source="content_item.source", read_only=True)
+
     class Meta:
         model = Flag
         fields = (
             "id",
             "keyword",
+            "keyword_name",
             "content_item",
+            "content_title",
+            "content_source",
             "score",
             "status",
             "reviewed_at",
@@ -40,3 +47,15 @@ class FlagSerializer(serializers.ModelSerializer):
             )
 
         return attrs
+
+
+class FlagStatusUpdateSerializer(serializers.Serializer):
+    status = serializers.ChoiceField(choices=Flag.Status.choices)
+
+
+class FlagListQuerySerializer(serializers.Serializer):
+    status = serializers.ChoiceField(choices=Flag.Status.choices, required=False)
+    min_score = serializers.DecimalField(
+        max_digits=5, decimal_places=2, required=False, min_value=0
+    )
+    keyword = serializers.CharField(required=False, allow_blank=False)

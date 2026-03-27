@@ -1,8 +1,13 @@
+import json
+
 from django.test import TestCase
-from django.urls import reverse
 
 
 class RoutingSmokeTests(TestCase):
-    def test_keywords_health_endpoint(self):
-        response = self.client.get(reverse('keywords:health'))
-        self.assertEqual(response.status_code, 200)
+    def test_keywords_create_endpoint_exists(self):
+        response = self.client.post(
+            "/keywords/",
+            data=json.dumps({"name": "django"}),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 201)
